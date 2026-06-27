@@ -2,6 +2,7 @@
 build/
 out/
 **/build/
+release-builds/
 
 .idea/
 *.iml

@@ -77,3 +77,20 @@ subprojects {
     }
 }
 
+tasks.register('cleanReleaseBuilds', Delete) {
+    delete layout.projectDirectory.dir('release-builds')
+}
+
+tasks.register('packageReleaseJars', Copy) {
+    group = 'build'
+    description = 'Builds Fabric and NeoForge release jars and copies them to release-builds.'
+
+    dependsOn tasks.named('cleanReleaseBuilds')
+    dependsOn ':fabric:build'
+    dependsOn ':neoforge:build'
+
+    into layout.projectDirectory.dir('release-builds')
+    from(project(':fabric').tasks.named('remapJar').flatMap { it.archiveFile })
+    from(project(':neoforge').tasks.named('remapJar').flatMap { it.archiveFile })
+}
+
