@@ -233,10 +233,10 @@ public final class VirtualPastureBlock extends BaseEntityBlock implements Simple
             .filter(java.util.Objects::nonNull)
             .forEach(pokemon -> {
                 if (pokemon.getCurrentFullness() > 0) {
-                    pokemon.tickMetabolism();
+                    pokemon.tickMetabolism(1);
                 }
                 if (!pokemon.getInteractionCooldowns().isEmpty()) {
-                    pokemon.tickInteractionCooldown();
+                    pokemon.tickInteractionCooldown(1);
                 }
             });
 
