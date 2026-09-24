@@ -14,9 +14,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class BlockEntityTypeMixin {
     @Inject(method = "isValid", at = @At("HEAD"), cancellable = true)
     private void virtualloot$acceptVirtualPasture(BlockState state, CallbackInfoReturnable<Boolean> cir) {
-         // 如果 Cobblemon 尚未完全加载，直接跳过，避免触发类初始化
+         // 如果 Cobblemon 尚未就绪，尝试懒加载检测
         if (!VirtualLoot.cobblemonReady) {
-            return;
+            try {
+                // 尝试加载 Cobblemon 的方块实体类，成功则说明 Cobblemon 已初始化
+                Class.forName("com.cobblemon.mod.common.CobblemonBlockEntities");
+                VirtualLoot.cobblemonReady = true;
+            } catch (Throwable t) {
+                // Cobblemon 尚未初始化，直接返回，避免触发异常
+                return;
+            }
         }
         if ((Object) this == CobblemonBlockEntities.PASTURE && VirtualLootBlocks.isVirtualPastureBlock(state.getBlock())) {
             cir.setReturnValue(true);
