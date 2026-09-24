@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 public final class VirtualLoot {
     public static final String MOD_ID = "virtualloot";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    // 新增：标记 Cobblemon 是否已完全就绪
+    public static boolean cobblemonReady = false;
 
     private VirtualLoot() {
     }
